@@ -1,6 +1,6 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
-export const SITE_TITLE = 'SPIN THE BLADE';
+export const SITE_TITLE = 'TYN Connections';
 export const SITE_DESCRIPTION = 'ヽ(・∀・)ﾉ';
 export const GITHUB_REPO_NAME = 'web2-electric-boogaloo';
