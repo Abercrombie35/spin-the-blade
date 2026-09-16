@@ -6,4 +6,80 @@
 NAME
 <input name="name" maxlength="40" required placeholder="your name" autocomplete="name" data-astro-cid-pz3li47m> </label> <label data-astro-cid-pz3li47m>
 COMMENT
-<textarea name="comment" maxlength="280" required placeholder="say something nice..." data-astro-cid-pz3li47m></textarea> </label> <button type="submit" data-astro-cid-pz3li47m>SUBMIT COMMENT</button> </form> <div class="guestbook-comments" aria-live="polite" data-astro-cid-pz3li47m></div> </section>  <script type="module">const m=document.querySelector("[data-guestbook]"),s=m?.querySelector(".guestbook-form"),c=m?.querySelector(".guestbook-comments"),a="spin-the-blade-guestbook";function u(){try{return JSON.parse(localStorage.getItem(a)||"[]")}catch{return[]}}function l(){if(!c)return;c.replaceChildren();const r=u();if(!r.length){const e=document.createElement("p");e.textContent="NO TRANSMISSIONS YET. BE THE FIRST.",c.append(e);return}r.slice().reverse().forEach(e=>{const t=document.createElement("article");t.className="guestbook-entry";const n=document.createElement("strong");n.textContent=e.name;const o=document.createElement("p");o.textContent=e.comment,t.append(n,o),c.append(t)})}s?.addEventListener("submit",r=>{r.preventDefault();const e=new FormData(s),t=String(e.get("name")||"").trim(),n=String(e.get("comment")||"").trim();if(!t||!n)return;const o=u();o.push({name:t,comment:n}),localStorage.setItem(a,JSON.stringify(o)),s.reset(),l()});l();</script>  <script async defer src="https://scripts.withcabin.com/hello.js"></script> </body> </html>
+<textarea name="comment" maxlength="280" required placeholder="say something nice..." data-astro-cid-pz3li47m></textarea> </label> <button type="submit" data-astro-cid-pz3li47m>SUBMIT COMMENT</button> </form> <div class="guestbook-comments" aria-live="polite" data-astro-cid-pz3li47m></div> </section>  <script>(function(){const supabaseUrl = "https://ztwwndnywowakzkigguq.supabase.co";
+const supabasePublishableKey = "sb_publishable_dJaVugZjh4h9IJRZr_64cg_PrFu0L_f";
+
+	const guestbook = document.querySelector('[data-guestbook]');
+	const form = guestbook?.querySelector('.guestbook-form');
+	const comments = guestbook?.querySelector('.guestbook-comments');
+	const apiHeaders = {
+		apikey: supabasePublishableKey,
+		Authorization: `Bearer ${supabasePublishableKey}`,
+	};
+
+	function renderComments(entries) {
+		if (!comments) return;
+		comments.replaceChildren();
+		if (!entries.length) {
+			const empty = document.createElement('p');
+			empty.textContent = 'NO TRANSMISSIONS YET. BE THE FIRST.';
+			comments.append(empty);
+			return;
+		}
+		entries.slice().reverse().forEach((entry) => {
+			const card = document.createElement('article');
+			card.className = 'guestbook-entry';
+			const name = document.createElement('strong');
+			name.textContent = entry.name;
+			const message = document.createElement('p');
+			message.textContent = entry.comment;
+			card.append(name, message);
+			comments.append(card);
+		});
+	}
+
+	function showMessage(message) {
+		if (!comments) return;
+		comments.replaceChildren();
+		const status = document.createElement('p');
+		status.textContent = message;
+		comments.append(status);
+	}
+
+	async function loadComments() {
+		try {
+			const response = await fetch(`${supabaseUrl}/rest/v1/guestbook_comments?select=id,name,comment,created_at&order=created_at.desc&limit=100`, { headers: apiHeaders });
+			if (!response.ok) throw new Error('Unable to load comments');
+			renderComments(await response.json());
+		} catch {
+			showMessage('GUESTBOOK OFFLINE. TRY AGAIN SOON.');
+		}
+	}
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		const values = new FormData(form);
+		const name = String(values.get('name') || '').trim();
+		const comment = String(values.get('comment') || '').trim();
+		if (!name || !comment) return;
+		const submit = form.querySelector('button[type="submit"]');
+		if (submit) submit.disabled = true;
+		try {
+			const response = await fetch(`${supabaseUrl}/rest/v1/guestbook_comments`, {
+				method: 'POST',
+				headers: { ...apiHeaders, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+				body: JSON.stringify({ name, comment }),
+			});
+			if (!response.ok) throw new Error('Unable to save comment');
+			form.reset();
+			await loadComments();
+		} catch {
+			showMessage('COULD NOT SAVE YOUR TRANSMISSION. TRY AGAIN.');
+		} finally {
+			if (submit) submit.disabled = false;
+		}
+	});
+
+	loadComments();
+	window.setInterval(loadComments, 15000);
+})();</script>  <script async defer src="https://scripts.withcabin.com/hello.js"></script> </body> </html>

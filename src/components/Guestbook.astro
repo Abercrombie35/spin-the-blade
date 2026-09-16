@@ -1,6 +1,8 @@
 ---
 const base = `${import.meta.env.BASE_URL}/`;
 const badges = ['80s.gif', '3dfx_banner.gif', '4ever.gif', '5star.gif', '88bigwave.gif', '88x31pinkmarble.gif', 'aim.gif', 'anibuttonscifi.gif', 'atari.gif', 'besteyes.gif', 'bestviewed.gif', 'blink.gif'];
+const supabaseUrl = 'https://ztwwndnywowakzkigguq.supabase.co';
+const supabasePublishableKey = 'sb_publishable_dJaVugZjh4h9IJRZr_64cg_PrFu0L_f';
 ---
 
 <section class="guestbook" data-guestbook>
@@ -39,21 +41,18 @@ const badges = ['80s.gif', '3dfx_banner.gif', '4ever.gif', '5star.gif', '88bigwa
 	.guestbook-entry p { margin: .3rem 0 0; white-space: pre-wrap; }
 </style>
 
-<script>
+<script define:vars={{ supabaseUrl, supabasePublishableKey }}>
 	const guestbook = document.querySelector('[data-guestbook]');
 	const form = guestbook?.querySelector('.guestbook-form');
 	const comments = guestbook?.querySelector('.guestbook-comments');
-	const storageKey = 'spin-the-blade-guestbook';
+	const apiHeaders = {
+		apikey: supabasePublishableKey,
+		Authorization: `Bearer ${supabasePublishableKey}`,
+	};
 
-	function getComments() {
-		try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); }
-		catch { return []; }
-	}
-
-	function renderComments() {
+	function renderComments(entries) {
 		if (!comments) return;
 		comments.replaceChildren();
-		const entries = getComments();
 		if (!entries.length) {
 			const empty = document.createElement('p');
 			empty.textContent = 'NO TRANSMISSIONS YET. BE THE FIRST.';
@@ -72,18 +71,48 @@ const badges = ['80s.gif', '3dfx_banner.gif', '4ever.gif', '5star.gif', '88bigwa
 		});
 	}
 
-	form?.addEventListener('submit', (event) => {
+	function showMessage(message) {
+		if (!comments) return;
+		comments.replaceChildren();
+		const status = document.createElement('p');
+		status.textContent = message;
+		comments.append(status);
+	}
+
+	async function loadComments() {
+		try {
+			const response = await fetch(`${supabaseUrl}/rest/v1/guestbook_comments?select=id,name,comment,created_at&order=created_at.desc&limit=100`, { headers: apiHeaders });
+			if (!response.ok) throw new Error('Unable to load comments');
+			renderComments(await response.json());
+		} catch {
+			showMessage('GUESTBOOK OFFLINE. TRY AGAIN SOON.');
+		}
+	}
+
+	form?.addEventListener('submit', async (event) => {
 		event.preventDefault();
 		const values = new FormData(form);
 		const name = String(values.get('name') || '').trim();
 		const comment = String(values.get('comment') || '').trim();
 		if (!name || !comment) return;
-		const entries = getComments();
-		entries.push({ name, comment });
-		localStorage.setItem(storageKey, JSON.stringify(entries));
-		form.reset();
-		renderComments();
+		const submit = form.querySelector('button[type="submit"]');
+		if (submit) submit.disabled = true;
+		try {
+			const response = await fetch(`${supabaseUrl}/rest/v1/guestbook_comments`, {
+				method: 'POST',
+				headers: { ...apiHeaders, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+				body: JSON.stringify({ name, comment }),
+			});
+			if (!response.ok) throw new Error('Unable to save comment');
+			form.reset();
+			await loadComments();
+		} catch {
+			showMessage('COULD NOT SAVE YOUR TRANSMISSION. TRY AGAIN.');
+		} finally {
+			if (submit) submit.disabled = false;
+		}
 	});
 
-	renderComments();
+	loadComments();
+	window.setInterval(loadComments, 15000);
 </script>
