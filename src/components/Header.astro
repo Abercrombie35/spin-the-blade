@@ -1,10 +1,14 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
 <header>
 	<nav>
-		<h2><a href='/'>TYN Connections</a></h2>
+		<h2><a href={base}>TYN Connections</a></h2>
 		<div class='internal-links'>
 			<a href='#game-title'>PLAY</a>
 			<span aria-hidden='true'>•</span>
-			<a href='/about'>ABOUT</a>
+			<a href={`${base}about/`}>ABOUT</a>
 		</div>
 	</nav>
 </header>

@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Guestbook from '../components/Guestbook.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 interface Props {
@@ -19,6 +20,7 @@ const { pageTitle } = Astro.props;
 	<body>
 		<Header {pageTitle} />
 		<slot />
+		<Guestbook />
 		<Footer />
 		<script async defer src='https://scripts.withcabin.com/hello.js'></script>
 	</body>

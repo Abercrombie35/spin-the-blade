@@ -1,6 +1,5 @@
 ---
 import Default from '../layouts/Default.astro';
-import Guestbook from '../components/Guestbook.astro';
 
 const puzzleSets = [
 	{
@@ -99,7 +98,6 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 			<img src='/badges/1blades.gif' alt='' />
 			<img src='/badges/8bit.gif' alt='' />
 		</div>
-		<Guestbook />
 		<footer class='site-note'>made with &lt;3 by Hrishi &amp; Codex</footer>
 	</main>
 </Default>
