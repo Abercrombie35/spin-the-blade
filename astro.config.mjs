@@ -4,7 +4,9 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://cryptidcafe.net",
+  site: "https://abercrombie35.github.io",
+  base: "/spin-the-blade",
+  outDir: "./docs",
   integrations: [mdx(), sitemap()],
   image: {
     domains: ["*.neocities.org"],
