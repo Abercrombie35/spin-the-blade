@@ -1,6 +1,14 @@
+---
+const base = import.meta.env.BASE_URL;
+const badges = ['80s.gif', '3dfx_banner.gif', '4ever.gif', '5star.gif', '88bigwave.gif', '88x31pinkmarble.gif', 'aim.gif', 'anibuttonscifi.gif', 'atari.gif', 'besteyes.gif', 'bestviewed.gif', 'blink.gif'];
+---
+
 <section class="guestbook" data-guestbook>
 	<h2 class="earth-display">ABOUT ME // GUESTBOOK</h2>
 	<p>Leave your transmission for the next web surfer.</p>
+	<div class="gif-wall" aria-label="Retro animated web badges">
+		{badges.map((badge) => <img src={`${base}badges/${badge}`} alt="" />)}
+	</div>
 	<form class="guestbook-form">
 		<label>
 			NAME
@@ -17,6 +25,8 @@
 
 <style>
 	.guestbook { max-width: 930px; margin: 1.65rem auto; padding: 1.3rem; border: 4px ridge #fff; background: #080808; box-shadow: 7px 7px 0 #777; }
+	.gif-wall { display: flex; justify-content: center; flex-wrap: wrap; gap: .35rem; margin: 1rem 0; padding: .65rem; border: 3px ridge #fff; background: repeating-linear-gradient(90deg, #ff00a8 0 14px, #ffea00 14px 28px, #00d9ff 28px 42px, #65ff00 42px 56px, #8645ff 56px 70px); }
+	.gif-wall img { width: 88px; height: 31px; image-rendering: pixelated; border: 1px solid #111; }
 	.earth-display { margin: 0; font-family: 'Earth', 'ChicagoFLF', Impact, fantasy; letter-spacing: .1em; text-shadow: 3px 3px #7417b8; }
 	.guestbook-form { display: grid; gap: .8rem; margin: 1rem 0; text-align: left; }
 	.guestbook-form label { display: grid; gap: .35rem; font-size: .8rem; letter-spacing: .08em; }

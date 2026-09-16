@@ -1,5 +1,6 @@
 ---
 import Default from '../layouts/Default.astro';
+const base = import.meta.env.BASE_URL;
 
 const puzzleSets = [
 	{
@@ -55,12 +56,12 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 			</div>
 		</section>
 		<div class='badge-rack' aria-label='Retro web badges'>
-			<img src='/badges/1blades.gif' alt='One Blades retro badge' />
-			<img src='/badges/2001.gif' alt='2001 retro badge' />
-			<img src='/badges/8bit.gif' alt='8-bit retro badge' />
-			<img src='/badges/90sgenzkid.gif' alt='90s retro badge' />
-			<img src='/badges/98plusani.gif' alt='98 Plus retro badge' />
-			<img src='/badges/Sega-Elite.gif' alt='Sega Elite retro badge' />
+			<img src={`${base}badges/1blades.gif`} alt='One Blades retro badge' />
+			<img src={`${base}badges/2001.gif`} alt='2001 retro badge' />
+			<img src={`${base}badges/8bit.gif`} alt='8-bit retro badge' />
+			<img src={`${base}badges/90sgenzkid.gif`} alt='90s retro badge' />
+			<img src={`${base}badges/98plusani.gif`} alt='98 Plus retro badge' />
+			<img src={`${base}badges/Sega-Elite.gif`} alt='Sega Elite retro badge' />
 		</div>
 		<section class='game-window' aria-labelledby='game-title'>
 			<div class='window-bar'>
@@ -93,10 +94,10 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 			</div>
 		</section>
 		<div class='badge-rack badge-rack-bottom' aria-label='More retro web badges'>
-			<img src='/badges/Sega-Elite.gif' alt='' />
-			<img src='/badges/98plusani.gif' alt='' />
-			<img src='/badges/1blades.gif' alt='' />
-			<img src='/badges/8bit.gif' alt='' />
+			<img src={`${base}badges/Sega-Elite.gif`} alt='' />
+			<img src={`${base}badges/98plusani.gif`} alt='' />
+			<img src={`${base}badges/1blades.gif`} alt='' />
+			<img src={`${base}badges/8bit.gif`} alt='' />
 		</div>
 		<footer class='site-note'>made with &lt;3 by Hrishi &amp; Codex</footer>
 	</main>
