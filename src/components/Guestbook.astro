@@ -1,0 +1,79 @@
+<section class="guestbook" data-guestbook>
+	<h2 class="earth-display">ABOUT ME // GUESTBOOK</h2>
+	<p>Leave your transmission for the next web surfer.</p>
+	<form class="guestbook-form">
+		<label>
+			NAME
+			<input name="name" maxlength="40" required placeholder="your name" autocomplete="name" />
+		</label>
+		<label>
+			COMMENT
+			<textarea name="comment" maxlength="280" required placeholder="say something nice..."></textarea>
+		</label>
+		<button type="submit">SUBMIT COMMENT</button>
+	</form>
+	<div class="guestbook-comments" aria-live="polite"></div>
+</section>
+
+<style>
+	.guestbook { max-width: 930px; margin: 1.65rem auto; padding: 1.3rem; border: 4px ridge #fff; background: #080808; box-shadow: 7px 7px 0 #777; }
+	.earth-display { margin: 0; font-family: 'Earth', 'ChicagoFLF', Impact, fantasy; letter-spacing: .1em; text-shadow: 3px 3px #7417b8; }
+	.guestbook-form { display: grid; gap: .8rem; margin: 1rem 0; text-align: left; }
+	.guestbook-form label { display: grid; gap: .35rem; font-size: .8rem; letter-spacing: .08em; }
+	.guestbook-form input, .guestbook-form textarea { width: 100%; border: 3px solid #fff; background: #fff; color: #111; font: inherit; padding: .55rem; }
+	.guestbook-form textarea { min-height: 90px; resize: vertical; }
+	.guestbook-form button { justify-self: start; border: 3px solid #fff; background: #7417b8; color: #fff; font: inherit; padding: .7rem 1rem; cursor: pointer; }
+	.guestbook-comments { display: grid; gap: .65rem; text-align: left; }
+	.guestbook-entry { border-left: 5px solid #f45cff; padding: .65rem .8rem; background: #333; }
+	.guestbook-entry strong { display: block; color: #fff; }
+	.guestbook-entry p { margin: .3rem 0 0; white-space: pre-wrap; }
+</style>
+
+<script>
+	const guestbook = document.querySelector('[data-guestbook]');
+	const form = guestbook?.querySelector('.guestbook-form');
+	const comments = guestbook?.querySelector('.guestbook-comments');
+	const storageKey = 'spin-the-blade-guestbook';
+
+	function getComments() {
+		try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); }
+		catch { return []; }
+	}
+
+	function renderComments() {
+		if (!comments) return;
+		comments.replaceChildren();
+		const entries = getComments();
+		if (!entries.length) {
+			const empty = document.createElement('p');
+			empty.textContent = 'NO TRANSMISSIONS YET. BE THE FIRST.';
+			comments.append(empty);
+			return;
+		}
+		entries.slice().reverse().forEach((entry) => {
+			const card = document.createElement('article');
+			card.className = 'guestbook-entry';
+			const name = document.createElement('strong');
+			name.textContent = entry.name;
+			const message = document.createElement('p');
+			message.textContent = entry.comment;
+			card.append(name, message);
+			comments.append(card);
+		});
+	}
+
+	form?.addEventListener('submit', (event) => {
+		event.preventDefault();
+		const values = new FormData(form);
+		const name = String(values.get('name') || '').trim();
+		const comment = String(values.get('comment') || '').trim();
+		if (!name || !comment) return;
+		const entries = getComments();
+		entries.push({ name, comment });
+		localStorage.setItem(storageKey, JSON.stringify(entries));
+		form.reset();
+		renderComments();
+	});
+
+	renderComments();
+</script>
