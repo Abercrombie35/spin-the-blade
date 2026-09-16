@@ -1,0 +1,374 @@
+---
+import Default from '../layouts/Default.astro';
+
+const puzzleSets = [
+	{
+		title: 'T Y N   C O N N E C T I O N S',
+		windowTitle: 'CONNECTIONS.EXE',
+		groups: [
+			{ name: 'MARKET SIZING', words: ['SOM', 'TAM', 'SAM', 'CAGR'] },
+			{ name: 'CONNECTED TO YALE', words: ['TWAIN', 'STREEP', 'VANCE', 'BUSH'] },
+			{ name: 'SLANG FOR MARIJUANA', words: ['GRASS', 'POT', 'WEED', 'REEFER'] },
+			{ name: 'GRADUATE SCHOOLS', words: ['DIVINE', 'ARTS&SCIENCES', 'MED', 'ART'] },
+		],
+	},
+	{
+		title: 'T Y N   C O N N E C T I O N S   —   S E T   2',
+		windowTitle: 'CONNECTIONS.EXE',
+		groups: [
+			{ name: 'YALE COLLEGES NAMED AFTER MEN', words: ['GEFFEN', 'JACKSON', 'FRANKLIN', 'DWIGHT'] },
+			{ name: 'YALE BUILDINGS', words: ['EVANS', 'SPRAGUE', 'BENIECKE', 'KLINE'] },
+			{ name: 'YALE COLLEGES / CLASSROOMS NAMED AFTER WOMXN', words: ['MURRAY', 'NOORI', 'HADLEY', 'HOPPER'] },
+			{ name: 'FAMOUS YALE WOMXN ALUMNI', words: ['CLINTON', 'ALBRIGHT', 'FOSTER', "NYONG'O"] },
+		],
+	},
+	{
+		title: 'T Y N   C O N N E C T I O N S   —   S E T   3',
+		windowTitle: 'CONNECTIONS.EXE',
+		groups: [
+			{ name: 'COLLEGE MASCOT DOGS', words: ['BULLY XXII', 'DAN XIX', 'DUBS II', 'BUTLER BLUE'] },
+			{ name: 'US PRESIDENTS FROM YALE', words: ['GERALD', 'GEORGE', 'WILLIAM HOWARD', 'BILL'] },
+			{ name: 'YALIES WHO LOST A US PRESIDENTIAL ELECTION OR NOMINATION', words: ['CLINTON', 'TILDEN', 'KERRY', 'LIEBERMAN'] },
+			{ name: 'SLANG FOR CASH', words: ['GREENBACKS', 'BUCKS', 'NOTE', 'DOLLARS'] },
+		],
+	},
+];
+
+const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(() => Math.random() - 0.5);
+---
+
+<Default pageTitle='Connections'>
+	<main class='connections-shell'>
+		<section class='hero-intro' aria-labelledby='welcome-title'>
+			<a class='about-orb' href='/about'>★ ABOUT ME ★</a>
+			<div class='beyblade-art' role='img' aria-label='A low-resolution silver and blue Beyblade spinning top'>
+				<span class='blade-ring ring-one'></span>
+				<span class='blade-ring ring-two'></span>
+				<span class='blade-core'></span>
+				<span class='blade-spark spark-one'>✦</span>
+				<span class='blade-spark spark-two'>✦</span>
+			</div>
+			<div class='hero-copy'>
+				<p class='blink-text'>[ NEW WEBSITE UNLOCKED ]</p>
+				<h1 id='welcome-title'>WELCOME TO THE 2000s</h1>
+				<p>Grab your spiky hair gel, turn up the pop-punk, and prepare to LET IT RIP.</p>
+			</div>
+		</section>
+		<div class='badge-rack' aria-label='Retro web badges'>
+			<img src='/badges/1blades.gif' alt='One Blades retro badge' />
+			<img src='/badges/2001.gif' alt='2001 retro badge' />
+			<img src='/badges/8bit.gif' alt='8-bit retro badge' />
+			<img src='/badges/90sgenzkid.gif' alt='90s retro badge' />
+			<img src='/badges/98plusani.gif' alt='98 Plus retro badge' />
+			<img src='/badges/Sega-Elite.gif' alt='Sega Elite retro badge' />
+		</div>
+		<section class='game-window' aria-labelledby='game-title'>
+			<div class='window-bar'>
+				<span class='window-glyph' aria-hidden='true'>◼</span>
+				<span id='window-title'>CONNECTIONS.EXE</span>
+				<span class='window-controls' aria-hidden='true'>[ _ ][ □ ][ X ]</span>
+			</div>
+			<div class='game-content'>
+				<p class='ascii-mark' aria-hidden='true'>░▒▓█▓▒░ &nbsp; WELCOME, WEB SURFER &nbsp; ░▒▓█▓▒░</p>
+				<h1 id='game-title'>T Y N &nbsp; C O N N E C T I O N S</h1>
+				<p class='intro'>Create four groups of four. Select words, then hit SUBMIT.</p>
+
+				<div class='status-line' role='status' aria-live='polite'>
+					<span id='groups-status'>GROUPS LEFT: 4</span>
+					<span id='mistakes-status'>MISTAKES: 0 / 4</span>
+				</div>
+
+				<div class='word-grid' id='word-grid' aria-label='Words to group'>
+					{puzzleWords.map((word) => <button class='word-tile' type='button' data-word={word}><span>{word}</span></button>)}
+				</div>
+
+				<div class='solved-groups' id='solved-groups' aria-live='polite'></div>
+
+				<div class='game-actions'>
+					<button class='pixel-button primary' id='submit-button' type='button' disabled>SUBMIT</button>
+					<button class='pixel-button' id='shuffle-button' type='button'>SHUFFLE</button>
+					<button class='pixel-button' id='reset-button' type='button'>NEW GAME</button>
+				</div>
+				<p class='message' id='game-message' role='status' aria-live='polite'>SELECT 4 WORDS TO BEGIN</p>
+			</div>
+		</section>
+		<div class='badge-rack badge-rack-bottom' aria-label='More retro web badges'>
+			<img src='/badges/Sega-Elite.gif' alt='' />
+			<img src='/badges/98plusani.gif' alt='' />
+			<img src='/badges/1blades.gif' alt='' />
+			<img src='/badges/8bit.gif' alt='' />
+		</div>
+		<footer class='site-note'>made with love by Hrishi</footer>
+	</main>
+</Default>
+
+<style>
+	.connections-shell {
+		width: min(920px, calc(100% - 2rem));
+		margin: 0 auto;
+		padding: 2rem 0 4rem;
+	}
+	.hero-intro {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(160px, 260px) 1fr;
+		align-items: center;
+		gap: 1.6rem;
+		min-height: 260px;
+		margin-bottom: 2rem;
+		padding: 1.5rem 1.75rem;
+		border: 4px ridge #fff;
+		background: #080808;
+		box-shadow: 4px 4px 0 #fff, -4px -4px 0 #555;
+		color: #fff;
+		overflow: hidden;
+	}
+	.hero-intro::before,
+	.hero-intro::after {
+		position: absolute;
+		content: '✦  ★  ✦  ★  ✦  ★  ✦';
+		font-family: 'American Typewriter', 'Courier New', Courier, monospace;
+		letter-spacing: .45rem;
+		color: #fff;
+		opacity: .8;
+		white-space: nowrap;
+	}
+	.hero-intro::before { top: .5rem; left: .9rem; }
+	.hero-intro::after { right: -2rem; bottom: .4rem; transform: rotate(-4deg); }
+	.about-orb {
+		position: absolute;
+		top: .85rem;
+		right: 1rem;
+		z-index: 2;
+		display: inline-grid;
+		place-items: center;
+		width: 132px;
+		height: 54px;
+		border: 3px outset #e9c9ff;
+		border-radius: 50% / 42%;
+		background: #7417b8;
+		box-shadow: 3px 3px 0 #f45cff, -2px -2px 0 #e9c9ff;
+		color: #fff;
+		font-family: 'American Typewriter', 'Courier New', Courier, monospace;
+		font-size: .75rem;
+		letter-spacing: .08em;
+		text-decoration: none;
+		text-shadow: 1px 1px #000;
+		animation: orb-flash 1.1s steps(2, end) infinite;
+	}
+	.about-orb:hover { transform: scale(1.08) rotate(-4deg); }
+	@keyframes orb-flash { 50% { filter: brightness(1.85) saturate(1.6); } }
+	.beyblade-art {
+		position: relative;
+		width: 180px;
+		aspect-ratio: 1;
+		justify-self: center;
+		border-radius: 0;
+		background:
+			linear-gradient(45deg, transparent 42%, #ffef00 42% 58%, transparent 58%),
+			linear-gradient(-45deg, transparent 42%, #00d9ff 42% 58%, transparent 58%),
+			repeating-linear-gradient(0deg, #ff167d 0 10px, #7e28d9 10px 20px),
+			repeating-linear-gradient(90deg, transparent 0 10px, #69ff2c 10px 20px);
+		box-shadow: 8px 0 #111, -8px 0 #111, 0 8px #111, 0 -8px #111, 14px 14px 0 #ff3dad;
+		image-rendering: pixelated;
+		transform: rotate(-8deg);
+		animation: spin 2.4s steps(8, end) infinite;
+	}
+	.beyblade-art::before, .beyblade-art::after {
+		position: absolute;
+		inset: 18%;
+		content: '';
+		clip-path: polygon(50% 0, 70% 30%, 100% 50%, 70% 70%, 50% 100%, 30% 70%, 0 50%, 30% 30%);
+		background: repeating-conic-gradient(#ffeb00 0 45deg, #ff2e91 45deg 90deg, #00d9ff 90deg 135deg, #7dff34 135deg 180deg);
+	}
+	.beyblade-art::after { inset: 34%; background: #f3e8ff; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+	.blade-core { position: absolute; inset: 42%; z-index: 1; border: 4px solid #111; border-radius: 0; background: #ff2e91; }
+	.blade-spark { position: absolute; z-index: 3; color: #fff; font-size: 2rem; text-shadow: 2px 2px #555; }
+	.spark-one { top: -18px; right: -28px; animation: twinkle .7s steps(2) infinite; }
+	.spark-two { bottom: -26px; left: -24px; animation: twinkle .9s steps(2) infinite reverse; }
+	.hero-copy { position: relative; z-index: 1; padding-right: 120px; text-shadow: 2px 2px #000; }
+	.hero-copy h1 { margin: .2rem 0; color: #fff; font-size: clamp(2rem, 5vw, 4.5rem); letter-spacing: .04em; text-shadow: 4px 4px #666, -2px -2px #111; }
+	.hero-copy p { max-width: 520px; margin: 0; color: #fff; font-size: 1rem; }
+	.blink-text { color: #fff !important; font-family: 'American Typewriter', 'Courier New', Courier, monospace; animation: twinkle .9s steps(2) infinite; }
+	@keyframes spin { to { transform: rotate(352deg); } }
+	@keyframes twinkle { 50% { opacity: .15; } }
+	.badge-rack {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: .42rem;
+		margin: 0 0 1.65rem;
+		padding: .65rem;
+		border: 3px ridge #fff;
+		background: repeating-linear-gradient(90deg, #ff00a8 0 14px, #ffea00 14px 28px, #00d9ff 28px 42px, #65ff00 42px 56px, #8645ff 56px 70px);
+		box-shadow: 5px 5px 0 #111;
+	}
+	.badge-rack img { width: 88px; height: 31px; image-rendering: pixelated; border: 1px solid #111; }
+	.badge-rack-bottom { margin: 1.65rem 0 0; background: repeating-linear-gradient(90deg, #00d9ff 0 14px, #8645ff 14px 28px, #ff00a8 28px 42px, #ffea00 42px 56px); }
+	.game-window {
+		background: #080808;
+		border: 4px solid #fff;
+		box-shadow: 8px 8px 0 #777;
+		color: #fff;
+	}
+	.window-bar {
+		display: flex;
+		align-items: center;
+		gap: .6rem;
+		padding: .45rem .65rem;
+		background: #111;
+		color: #fff;
+		font-family: 'American Typewriter', 'Courier New', Courier, monospace;
+		font-size: .9rem;
+		letter-spacing: .08em;
+	}
+	.window-glyph { font-size: .75rem; }
+	.window-controls { margin-left: auto; font-family: 'American Typewriter', 'Courier New', Courier, monospace; font-size: .75rem; }
+	.game-content { padding: clamp(1.2rem, 4vw, 3rem); }
+	.ascii-mark { margin: 0 0 1.4rem; font-size: .8rem; text-align: center; letter-spacing: .08em; }
+	#game-title { margin-bottom: .4rem; text-align: center; font-size: clamp(1.65rem, 5vw, 3.15rem); letter-spacing: .06em; }
+	.intro { margin: 0 auto 1.75rem; text-align: center; }
+	.status-line { display: flex; justify-content: space-between; border-top: 2px dashed #fff; border-bottom: 2px dashed #fff; padding: .7rem 0; font-family: 'American Typewriter', 'Courier New', Courier, monospace; font-size: .85rem; }
+	.word-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .85rem; padding: 1.4rem 0; }
+	.word-tile { aspect-ratio: 1; min-height: 0; padding: .6rem .35rem; border: 4px solid #000; background: #fff; color: #000; font: 1.05rem 'American Typewriter', 'Courier New', Courier, monospace; letter-spacing: .02em; text-transform: lowercase; cursor: pointer; box-shadow: 5px 5px 0 #fff; transition: transform .1s steps(1), box-shadow .1s steps(1); }
+	.word-tile span {
+		display: inline-block;
+		padding: .12rem .22rem;
+		color: #000;
+		font-weight: 700;
+	}
+	.word-tile:hover, .word-tile:focus-visible { background: #fff; transform: translate(-2px, -2px); box-shadow: 7px 7px 0 #000; }
+	.word-tile.selected { background: #fff; color: #000; transform: none; box-shadow: 0 0 0 4px #000; }
+	.word-tile:disabled { cursor: default; }
+	.solved-groups { display: grid; gap: .65rem; }
+	.solved-group { border: 3px solid #fff; padding: .8rem; background: #333; }
+	.solved-group strong { display: block; font-size: .9rem; }
+	.solved-group span { display: block; margin-top: .3rem; font-size: .82rem; }
+	.game-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .7rem; margin-top: 1.4rem; }
+	.pixel-button { min-width: 110px; padding: .7rem 1rem; border: 3px solid #fff; background: #222; color: #fff; font: .8rem 'American Typewriter', 'Courier New', Courier, monospace; cursor: pointer; box-shadow: 4px 4px 0 #777; }
+	.pixel-button:hover:not(:disabled), .pixel-button:focus-visible:not(:disabled) { background: #666; }
+	.pixel-button:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: none; }
+	.pixel-button.primary { background: #fff; color: #111; }
+	.pixel-button:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+	.message { min-height: 1.3em; margin: 1.4rem 0 0; text-align: center; font-size: .8rem; }
+	.site-note { margin-top: 1.4rem; text-align: center; font-size: .75rem; }
+	@media (max-width: 600px) {
+		.connections-shell { width: min(100% - 1rem, 920px); padding-top: 1rem; }
+		.game-window { box-shadow: 4px 4px 0 #111; }
+		.window-controls { display: none; }
+		.word-grid { gap: .45rem; }
+		.word-tile { min-height: 0; font-size: .76rem; }
+		.status-line { font-size: .72rem; }
+		.hero-intro { grid-template-columns: 1fr; padding-top: 4.9rem; text-align: center; }
+		.hero-copy { padding-right: 0; }
+		.beyblade-art { width: 128px; }
+		.about-orb { right: 50%; transform: translateX(50%); }
+		.about-orb:hover { transform: translateX(50%) scale(1.06) rotate(-4deg); }
+	}
+</style>
+
+<script define:vars={{ puzzleSets }}>
+	const wordGrid = document.querySelector('#word-grid');
+	const submitButton = document.querySelector('#submit-button');
+	const shuffleButton = document.querySelector('#shuffle-button');
+	const resetButton = document.querySelector('#reset-button');
+	const message = document.querySelector('#game-message');
+	const groupsStatus = document.querySelector('#groups-status');
+	const mistakesStatus = document.querySelector('#mistakes-status');
+	const solvedGroups = document.querySelector('#solved-groups');
+	const gameTitle = document.querySelector('#game-title');
+	const windowTitle = document.querySelector('#window-title');
+	const tiles = () => [...document.querySelectorAll('.word-tile')];
+	let puzzleIndex = 0;
+	let selectedWords = [];
+	let solved = [];
+	let mistakes = 0;
+	const activePuzzle = () => puzzleSets[puzzleIndex];
+
+	function updateStatus() {
+		groupsStatus.textContent = `GROUPS LEFT: ${activePuzzle().groups.length - solved.length}`;
+		mistakesStatus.textContent = `MISTAKES: ${mistakes} / 4`;
+		submitButton.disabled = selectedWords.length !== 4 || solved.length === activePuzzle().groups.length || mistakes === 4;
+	}
+
+	function clearSelection() {
+		selectedWords = [];
+		tiles().forEach((tile) => tile.classList.remove('selected'));
+		updateStatus();
+	}
+
+	function shuffleTiles() {
+		const shuffled = tiles().sort(() => Math.random() - 0.5);
+		shuffled.forEach((tile) => wordGrid.append(tile));
+	}
+
+	function renderSolvedGroup(group) {
+		const groupElement = document.createElement('div');
+		groupElement.className = 'solved-group';
+		groupElement.innerHTML = `<strong>${group.name}</strong><span>${group.words.join(' · ')}</span>`;
+		solvedGroups.append(groupElement);
+	}
+
+	function submitGroup() {
+		const match = activePuzzle().groups.find((group) => !solved.includes(group.name) && group.words.every((word) => selectedWords.includes(word)));
+		if (match) {
+			solved.push(match.name);
+			selectedWords.forEach((word) => tiles().find((tile) => tile.dataset.word === word)?.remove());
+			renderSolvedGroup(match);
+			message.textContent = `NICE! ${match.name.replace('___ ', '')} CONNECTED.`;
+			clearSelection();
+		} else {
+			mistakes += 1;
+			message.textContent = mistakes === 4 ? 'GAME OVER. PRESS NEW GAME TO TRY AGAIN.' : 'NOPE. THOSE WORDS DO NOT CONNECT.';
+			clearSelection();
+		}
+		if (solved.length === activePuzzle().groups.length) message.textContent = 'YOU FOUND ALL THE CONNECTIONS! RADICAL.';
+		updateStatus();
+	}
+
+	function renderPuzzle() {
+		const puzzle = activePuzzle();
+		selectedWords = [];
+		solved = [];
+		mistakes = 0;
+		gameTitle.textContent = puzzle.title;
+		windowTitle.textContent = puzzle.windowTitle;
+		wordGrid.replaceChildren();
+		puzzle.groups.flatMap((group) => group.words).sort(() => Math.random() - 0.5).forEach((word) => {
+			const tile = document.createElement('button');
+			tile.className = 'word-tile';
+			tile.type = 'button';
+			tile.dataset.word = word;
+			const label = document.createElement('span');
+			label.textContent = word;
+			tile.append(label);
+			wordGrid.append(tile);
+		});
+		solvedGroups.replaceChildren();
+		message.textContent = puzzle.title.includes('BUSINESS') ? 'NEW SET: BUSINESS ROLES. SELECT 4 WORDS.' : 'SELECT 4 WORDS TO BEGIN';
+		updateStatus();
+	}
+
+	function resetGame() {
+		puzzleIndex = (puzzleIndex + 1) % puzzleSets.length;
+		renderPuzzle();
+	}
+
+	wordGrid.addEventListener('click', (event) => {
+		const tile = event.target.closest('.word-tile');
+		if (!tile || tile.classList.contains('selected') && selectedWords.length === 0) return;
+		if (tile.classList.contains('selected')) {
+			selectedWords = selectedWords.filter((word) => word !== tile.dataset.word);
+			tile.classList.remove('selected');
+		} else if (selectedWords.length < 4) {
+			selectedWords.push(tile.dataset.word);
+			tile.classList.add('selected');
+		}
+		updateStatus();
+	});
+	submitButton.addEventListener('click', submitGroup);
+	shuffleButton.addEventListener('click', shuffleTiles);
+	resetButton.addEventListener('click', resetGame);
+	updateStatus();
+</script>

@@ -1,0 +1,27 @@
+---
+import { marked } from 'marked';
+import { GITHUB_REPO_NAME } from '../consts';
+
+const slug = 'changelog';
+const response = await fetch(
+	`https://raw.githubusercontent.com/professorsugoi/${GITHUB_REPO_NAME}/main/frontend/src/content/blog/${slug}.md`
+);
+const markdown = await response.text();
+
+function truncate(content, startLine = 0, maxLines = 7) {
+	const lines = content.split('\n');
+	const trunicatedLines = lines.slice(startLine, startLine + maxLines);
+	if (trunicatedLines.length <= maxLines) return trunicatedLines.join('\n');
+	return lines.join('\n');
+}
+
+const truncatedMarkdown = truncate(markdown, 7);
+const content = marked.parse(truncatedMarkdown);
+// i did try using the <Content /> component, but it wouldn't truncate >:(
+// so this is the workaround
+---
+
+<article>
+	<div set:html={content} />
+	<a href={`/blog/${slug}`}><button class='command_button'>Read More</button></a>
+</article>
