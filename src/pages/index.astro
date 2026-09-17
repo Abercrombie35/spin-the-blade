@@ -282,8 +282,6 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 	const groupsStatus = document.querySelector('#groups-status');
 	const mistakesStatus = document.querySelector('#mistakes-status');
 	const solvedGroups = document.querySelector('#solved-groups');
-	const gameTitle = document.querySelector('#game-title');
-	const windowTitle = document.querySelector('#window-title');
 	const tiles = () => [...document.querySelectorAll('.word-tile')];
 	let puzzleIndex = 0;
 	let selectedWords = [];
@@ -337,8 +335,6 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 		selectedWords = [];
 		solved = [];
 		mistakes = 0;
-		gameTitle.textContent = puzzle.title;
-		windowTitle.textContent = puzzle.windowTitle;
 		wordGrid.replaceChildren();
 		puzzle.groups.flatMap((group) => group.words).sort(() => Math.random() - 0.5).forEach((word) => {
 			const tile = document.createElement('button');
