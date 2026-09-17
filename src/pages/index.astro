@@ -71,7 +71,7 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 			</div>
 			<div class='game-content'>
 				<p class='ascii-mark' aria-hidden='true'>░▒▓█▓▒░ &nbsp; WELCOME, WEB SURFER &nbsp; ░▒▓█▓▒░</p>
-				<h1 id='game-title'>T Y N &nbsp; C O N N E C T I O N S</h1>
+				<h1 id='game-title'><span>TYN</span><span>CONNECTIONS</span></h1>
 				<p class='intro'>Create four groups of four. Select words, then hit SUBMIT.</p>
 
 				<div class='status-line' role='status' aria-live='polite'>
@@ -232,6 +232,7 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 	.game-content { padding: clamp(1.2rem, 4vw, 3rem); }
 	.ascii-mark { margin: 0 0 1.4rem; font-size: .8rem; text-align: center; letter-spacing: .08em; }
 	#game-title { margin-bottom: .4rem; text-align: center; font-size: clamp(1.65rem, 5vw, 3.15rem); letter-spacing: .06em; }
+	#game-title span { display: block; }
 	.intro { margin: 0 auto 1.75rem; text-align: center; }
 	.status-line { display: flex; justify-content: space-between; border-top: 2px dashed #fff; border-bottom: 2px dashed #fff; padding: .7rem 0; font-family: var(--typewriter); font-size: .85rem; }
 	.word-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .85rem; padding: 1.4rem 0; }
