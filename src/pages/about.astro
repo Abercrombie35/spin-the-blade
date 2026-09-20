@@ -13,7 +13,13 @@ const base = `${import.meta.env.BASE_URL}/`;
 				<div class="about-orbit" aria-hidden="true">✦</div>
 				<p class="manifesto">The connections are not always easy.</p>
 				<p class="manifesto emphasis">Use lateral thinking and beware of Red Herrings.</p>
-				<p>Welcome to my small, loud, pixelated corner of the internet. This is where patterns, puzzles, and ideas collide.</p>
+				<div class="about-note">
+					<p>You know what NYT Connections is right?!</p>
+					<p>This is like that with full rights reserved to me, and is related to Yake University, with all (re: most) word pairs having some Yale econnection.</p>
+					<p>Of course, to create red herrings and make it a bit challenging, and given this is not my full-time job, I have to include non-Yale word pairs.</p>
+					<p>Have fun, share it with friends, will add new games whenever I get any pockets of free time. Send in your submissions at <a href="mailto:hrishikesh.kayshap@yale.edu">hrishikesh.kayshap@yale.edu</a></p>
+					<p>xoxo<br />Hrishi</p>
+				</div>
 				<a class="back-link" href={base}>← BACK TO CONNECTIONS</a>
 			</div>
 		</section>
@@ -31,6 +37,9 @@ const base = `${import.meta.env.BASE_URL}/`;
 	.about-orbit { width: 120px; height: 120px; margin: 1.5rem auto; display: grid; place-items: center; border: 10px solid #ff2e91; outline: 7px solid #00d9ff; border-radius: 50%; background: repeating-conic-gradient(#ffeb00 0 45deg, #ff2e91 45deg 90deg, #00d9ff 90deg 135deg, #7dff34 135deg 180deg); color: #fff; font-size: 3rem; animation: spin 3s steps(8) infinite; }
 	.manifesto { max-width: 650px; margin: 1rem auto; font-size: clamp(1.15rem, 3vw, 1.8rem); }
 	.emphasis { color: #fff; text-shadow: 3px 3px #7417b8; }
+	.about-note { max-width: 700px; margin: 2rem auto 0; text-align: left; line-height: 1.55; }
+	.about-note p { margin: 1rem 0; }
+	.about-note a { color: #00d9ff; }
 	.back-link { display: inline-block; margin-top: 2rem; padding: .75rem 1rem; border: 3px solid #fff; color: #fff; text-decoration: none; }
 	@keyframes blink { 50% { opacity: .25; } }
 	@keyframes spin { to { transform: rotate(360deg); } }
