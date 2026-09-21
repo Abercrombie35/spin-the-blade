@@ -33,6 +33,16 @@ const puzzleSets = [
 			{ name: 'SLANG FOR CASH', words: ['GREENBACKS', 'BUCKS', 'NOTE', 'DOLLARS'] },
 		],
 	},
+	{
+		title: 'T Y N   C O N N E C T I O N S   —   S E T   4',
+		windowTitle: 'CONNECTIONS.EXE',
+		groups: [
+			{ name: 'STUDENT CAMPUS PUBLICATIONS', words: ['DAILY', 'HERALD', 'RECORD', 'RUMPUS'] },
+			{ name: 'MENTAL HEALTH AND SUPPORT', words: ['GOOD LIFE', 'SAS', '55 LOCK STREET', 'SHARE'] },
+			{ name: 'LAWNS IN YALE', words: ['QUADRANGLE', "SACHEM'S WOOD", 'THE PATIO', 'CROSS CAMPUS'] },
+			{ name: 'APPS OF YALE', words: ['CONNECT', 'SHUTTLE', 'CANVAS', 'DUO'] },
+		],
+	},
 ];
 
 const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(() => Math.random() - 0.5);
