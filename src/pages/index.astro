@@ -245,8 +245,8 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 	#game-title span { display: block; }
 	.intro { margin: 0 auto 1.75rem; text-align: center; }
 	.status-line { display: flex; justify-content: space-between; border-top: 2px dashed #fff; border-bottom: 2px dashed #fff; padding: .7rem 0; font-family: var(--typewriter); font-size: .85rem; }
-	.word-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .85rem; padding: 1.4rem 0; }
-	.word-tile { aspect-ratio: 1; min-height: 0; padding: .6rem .35rem; border: 4px solid #000; background: #fff; color: #000; font: 1.08rem var(--typewriter); letter-spacing: .024em; text-transform: lowercase; cursor: pointer; box-shadow: 5px 5px 0 #fff; transition: transform .1s steps(1), box-shadow .1s steps(1); }
+	.word-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .85rem; padding: 1.4rem 0; }
+	.word-tile { aspect-ratio: 1; min-height: 0; padding: .6rem .35rem; border: 4px solid #000; background: #fff; color: #000; font: clamp(1.08rem, 2.2vw, 1.38rem) / 1.1 var(--typewriter); letter-spacing: .024em; overflow-wrap: anywhere; text-transform: lowercase; cursor: pointer; box-shadow: 5px 5px 0 #fff; transition: transform .1s steps(1), box-shadow .1s steps(1); }
 	.word-tile span {
 		display: inline-block;
 		padding: .12rem .22rem;
@@ -272,14 +272,21 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 		.connections-shell { width: min(100% - 1rem, 920px); padding-top: 1rem; }
 		.game-window { box-shadow: 4px 4px 0 #111; }
 		.window-controls { display: none; }
-		.word-grid { gap: .45rem; }
-		.word-tile { min-height: 0; font-size: 1.14rem; }
+		.game-content { padding: 1rem .75rem 1.25rem; }
+		.word-grid { gap: .35rem; padding: 1rem 0; }
+		.word-tile { min-height: 0; padding: .35rem .16rem; font-size: clamp(1.15rem, 4.5vw, 1.35rem); letter-spacing: .012em; }
 		.status-line { font-size: .72rem; }
 		.hero-intro { grid-template-columns: 1fr; padding-top: 4.9rem; text-align: center; }
 		.hero-copy { padding-right: 0; }
 		.beyblade-art { width: 128px; }
 		.about-orb { right: 50%; transform: translateX(50%); }
 		.about-orb:hover { transform: translateX(50%) scale(1.06) rotate(-4deg); }
+	}
+	@media (min-width: 601px) and (max-width: 1024px) {
+		.connections-shell { width: min(100% - 2rem, 920px); }
+		.game-content { padding: clamp(1.5rem, 4vw, 2.5rem); }
+		.word-grid { gap: clamp(.6rem, 1.7vw, .9rem); }
+		.word-tile { padding: .55rem .3rem; font-size: clamp(1.25rem, 3.2vw, 1.55rem); }
 	}
 </style>
 
@@ -293,11 +300,12 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 	const mistakesStatus = document.querySelector('#mistakes-status');
 	const solvedGroups = document.querySelector('#solved-groups');
 	const tiles = () => [...document.querySelectorAll('.word-tile')];
+	const shuffledPuzzleIndexes = puzzleSets.map((_, index) => index).sort(() => Math.random() - 0.5);
 	let puzzleIndex = 0;
 	let selectedWords = [];
 	let solved = [];
 	let mistakes = 0;
-	const activePuzzle = () => puzzleSets[puzzleIndex];
+	const activePuzzle = () => puzzleSets[shuffledPuzzleIndexes[puzzleIndex]];
 
 	function updateStatus() {
 		groupsStatus.textContent = `GROUPS LEFT: ${activePuzzle().groups.length - solved.length}`;
@@ -362,7 +370,7 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 	}
 
 	function resetGame() {
-		puzzleIndex = (puzzleIndex + 1) % puzzleSets.length;
+		puzzleIndex = (puzzleIndex + 1) % shuffledPuzzleIndexes.length;
 		renderPuzzle();
 	}
 
@@ -381,5 +389,5 @@ const puzzleWords = puzzleSets[0].groups.flatMap((group) => group.words).sort(()
 	submitButton.addEventListener('click', submitGroup);
 	shuffleButton.addEventListener('click', shuffleTiles);
 	resetButton.addEventListener('click', resetGame);
-	updateStatus();
+	renderPuzzle();
 </script>
